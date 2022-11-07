@@ -5,12 +5,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.losnullpointer.elgranpostor.exceptions.CrearSubastaException;
-import com.losnullpointer.elgranpostor.model.MCategoria;
-import com.losnullpointer.elgranpostor.model.MUsuario;
 import com.losnullpointer.elgranpostor.model.entities.Categoria;
 import com.losnullpointer.elgranpostor.model.entities.Subasta;
 import com.losnullpointer.elgranpostor.model.entities.Usuario;
-import com.losnullpointer.elgranpostor.persistence.jpa.JpaSubastaRepository;
+import com.losnullpointer.elgranpostor.persistence.daos.JpaCategoriaRepository;
+import com.losnullpointer.elgranpostor.persistence.daos.JpaSubastaRepository;
+import com.losnullpointer.elgranpostor.persistence.daos.JpaUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -25,6 +25,12 @@ import com.losnullpointer.elgranpostor.model.MSubasta;
 public class SubastasController {
     @Autowired
     SubastasServices sbs;
+    @Autowired
+    JpaCategoriaRepository cateRepo;
+    @Autowired
+    JpaUsuarioRepository usuRepo;
+    @Autowired
+    JpaSubastaRepository subaRepo;
 
     @GetMapping("/subasta/")
     public ResponseEntity<?> controllerGetSubastas(){
@@ -119,17 +125,17 @@ public class SubastasController {
             return new ResponseEntity<>("No se pudo finalizar",HttpStatus.FORBIDDEN);
         }
     }
-     /*
+
      @GetMapping(value = "/poblar")
      public ResponseEntity<?> controllerPoblar(){
          try {
-             sbr.save(new Subasta(new Usuario(1),"Chevi 1079",new Categoria("Automoviles"),"XD,:v","Carro en perfectas condiciones",
+             subaRepo.save(new Subasta(new Usuario(1),"Chevi 1079",new Categoria("Automoviles",1),"XD,:v","Carro en perfectas condiciones",
                      12, (float) 200000));
          } catch (CrearSubastaException e) {
              throw new RuntimeException(e);
          }
          return new ResponseEntity<>("Prueba",HttpStatus.ACCEPTED);
-     }*/
+     }
 
 
 }

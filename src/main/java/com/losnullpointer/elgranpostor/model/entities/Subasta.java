@@ -11,23 +11,24 @@ public class Subasta implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SubastaId")
+    @Column(name = "subasta_id")
     private int id;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdUsuario",referencedColumnName = "idUsuario")
+    @JoinColumn(name = "id_usuario",referencedColumnName = "id_usuario")
     private Usuario usuario;
-    @Column(name = "Nombre")
+    @Column(name = "nombre")
     private String nombre;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdCategoria",referencedColumnName = "id")
+    @JoinColumn(name = "id_categoria",referencedColumnName = "id")
     private Categoria categoria;
-    @Column(name = "Tags")
+    @Column(name = "tags")
     private String tags;
-    @Column(name = "Descripcion")
+    @Column(name = "descripcion")
     private String descripcion;
-    @Column(name = "Duracion")
+    @Column(name = "duracion")
     private int duracion;
-    @Column(name = "Precio")
+    @Column(name = "precio")
     private float precio;
 
     public Subasta(int id, Usuario usuario, String nombre, Categoria categoria, String tags, String descripcion, int duracion, float precio) throws CrearSubastaException {

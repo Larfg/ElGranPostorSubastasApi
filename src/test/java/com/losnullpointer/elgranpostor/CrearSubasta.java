@@ -4,9 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import com.losnullpointer.elgranpostor.persistence.jpa.JpaCategoriaRepository;
-import com.losnullpointer.elgranpostor.persistence.jpa.JpaSubastaRepository;
-import com.losnullpointer.elgranpostor.persistence.jpa.JpaUsuarioRepository;
+import com.losnullpointer.elgranpostor.model.entities.Categoria;
+import com.losnullpointer.elgranpostor.persistence.daos.JpaCategoriaRepository;
+import com.losnullpointer.elgranpostor.persistence.daos.JpaSubastaRepository;
+import com.losnullpointer.elgranpostor.persistence.daos.JpaUsuarioRepository;
 import org.junit.jupiter.api.Test;
 
 import com.losnullpointer.elgranpostor.exceptions.CrearSubastaException;
@@ -14,6 +15,8 @@ import com.losnullpointer.elgranpostor.model.MCategoria;
 import com.losnullpointer.elgranpostor.model.MSubasta;
 import com.losnullpointer.elgranpostor.model.MUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class CrearSubasta {
     @Autowired
@@ -51,6 +54,10 @@ public class CrearSubasta {
             return;
         }
         fail();
+    }
+    @Test
+    public void shouldGetJpaCategorias(){
+
     }
     
 }

@@ -4,11 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity
-@Table(name = "usuarios")
+@Entity(name = "usuarios")
 public class Usuario implements Serializable {
     @Id
-    @Column(name = "IdUsuario")
+    @Column(name = "id_usuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;
     @OneToMany(mappedBy = "usuario")
