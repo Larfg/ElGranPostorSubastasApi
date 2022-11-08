@@ -30,6 +30,9 @@ public class Subasta  implements Serializable {
     @Column(name = "precio")
     private float precio;
 
+    @Column(name = "oferta_maxima")
+    private float ofertaMaxima;
+
     @Column(name = "activa")
     private boolean activa;
 
@@ -114,6 +117,14 @@ public class Subasta  implements Serializable {
 
     public boolean isFinalizada() {
         return finalizada;
+    }
+
+    public float getOfertaMaxima() {
+        return ofertaMaxima;
+    }
+
+    public void setOfertaMaxima(float ofertaMaxima) {
+        this.ofertaMaxima = ofertaMaxima;
     }
 
     public void setFinalizada(boolean finalizada) {

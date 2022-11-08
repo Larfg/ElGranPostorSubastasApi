@@ -1,5 +1,7 @@
 package com.losnullpointer.elgranpostor.controllers;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -7,6 +9,10 @@ import java.util.logging.Logger;
 import com.google.gson.GsonBuilder;
 import com.losnullpointer.elgranpostor.model.entities.Subasta;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +20,25 @@ import com.google.gson.Gson;
 
 import com.losnullpointer.elgranpostor.services.SubastasServices;
 
-import static java.lang.reflect.Modifier.TRANSIENT;
-
-@RestController
+@Controller
 @RequestMapping(value = "version1/subastas")
 public class SubastasController {
+    Dictionary<Integer,List<Float>> subastasBids = new Hashtable<>();
     @Autowired
     SubastasServices sbs;
-
+    @Autowired
+    SimpMessagingTemplate msgt;
+    /*
+    @MessageMapping("/newBid.{idSubasta}")
+    public void handleBidEvent(Float bid, @DestinationVariable int idSubasta) throws Exception{
+        int maxBid;
+        msgt.convertAndSend("/topic/newBid."+idSubasta, bid);
+        synchronized (subastasBids){
+            if(subastasBids.get(idSubasta) != null){
+                subastasBids.get(idSubasta).add(bid);
+            }
+        }
+    }*/
     @GetMapping("/subasta/")
     public ResponseEntity<?> controllerGetSubastas(){
         try {
