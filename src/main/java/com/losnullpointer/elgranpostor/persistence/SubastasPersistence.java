@@ -2,23 +2,24 @@ package com.losnullpointer.elgranpostor.persistence;
 
 import java.util.List;
 
-import com.losnullpointer.elgranpostor.model.MSubasta;
+import com.losnullpointer.elgranpostor.model.entities.Subasta;
 
 public interface SubastasPersistence {
 
-    void saveSubasta(MSubasta sb);
 
-    MSubasta getSubasta(int id);
+    void saveSubasta(Subasta sb);
 
-    List<MSubasta> getSubastasByUser(int id);
+    Subasta getSubasta(int id);
 
-    List<MSubasta> getSubastas();
+    List<Subasta> getSubastasByUser(int id);
+
+    List<Subasta> getSubastas();
 
     void deleteSubasta(int id);
 
-    void pausarSubasta(int id);
+    void pausarSubasta(int id) throws Exception;
 
-    void resumaSubasta(int id);
+    void resumaSubasta(int id) throws Exception;
 
-    void finalizarSubasta(int id);
+    void finalizarSubasta(int id) throws Exception;
 }

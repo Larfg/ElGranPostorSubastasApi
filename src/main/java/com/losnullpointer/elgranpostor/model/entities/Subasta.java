@@ -1,25 +1,24 @@
 package com.losnullpointer.elgranpostor.model.entities;
 
-import com.losnullpointer.elgranpostor.exceptions.CrearSubastaException;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
+
 @Entity
 @Table(name = "subastas")
-public class Subasta implements Serializable {
+public class Subasta  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subasta_id")
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_usuario",referencedColumnName = "id_usuario")
     private Usuario usuario;
     @Column(name = "nombre")
     private String nombre;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_categoria",referencedColumnName = "id")
     private Categoria categoria;
     @Column(name = "tags")
@@ -31,46 +30,14 @@ public class Subasta implements Serializable {
     @Column(name = "precio")
     private float precio;
 
-    public Subasta(int id, Usuario usuario, String nombre, Categoria categoria, String tags, String descripcion, int duracion, float precio) throws CrearSubastaException {
-        this.id = id;
-        this.usuario = usuario;
-        this.nombre = nombre;
-        this.categoria = categoria;
-        this.tags = tags;
-        if (descripcion.length() > 1000) {
-            throw new CrearSubastaException("La descripcion solo puede ser de 1000 caracteres borre");
-        }
-        this.descripcion = descripcion;
-        this.duracion = duracion;
-        this.precio = precio;
-    }
+    @Column(name = "activa")
+    private boolean activa;
 
-    public Subasta(Usuario usuario, String nombre, Categoria categoria, String tags, String descripcion, int duracion, float precio) throws CrearSubastaException {
-        this.usuario = usuario;
-        this.nombre = nombre;
-        this.categoria = categoria;
-        this.tags = tags;
-        if (descripcion.length() > 1000) {
-            throw new CrearSubastaException("La descripcion solo puede ser de 1000 caracteres borre");
-        }
-        this.descripcion = descripcion;
-        this.duracion = duracion;
-        this.precio = precio;
-    }
+    @Column(name ="finalizada")
+    private boolean finalizada;
+
 
     public Subasta() {
-
-    }
-
-    public String toString(){
-        return id+","+
-            usuario.toString()+","+
-            nombre+","+
-            categoria.getName()+","+
-            tags.toString()+","+
-            descripcion+","+
-            duracion+","+
-            precio;
     }
 
     public int getId() {
@@ -135,5 +102,21 @@ public class Subasta implements Serializable {
 
     public void setPrecio(float precio) {
         this.precio = precio;
+    }
+
+    public boolean isActiva() {
+        return activa;
+    }
+
+    public void setActiva(boolean activa) {
+        this.activa = activa;
+    }
+
+    public boolean isFinalizada() {
+        return finalizada;
+    }
+
+    public void setFinalizada(boolean finalizada) {
+        this.finalizada = finalizada;
     }
 }

@@ -5,6 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
+import java.util.List;
+
 @Repository
 public interface JpaSubastaRepository extends JpaRepository<Subasta, Serializable> {
+
+    List<Subasta> findByUsuarioIdUsuario(int id);
+
 }

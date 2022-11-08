@@ -12,13 +12,12 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class SubastasPersistenceImpl implements SubastasPersistence {
+
+public class SubastasPersistenceImpl {
     List<MSubasta> subastas = new ArrayList<>();
     List<MUsuario> usuarios = new ArrayList<>();
     List<MCategoria> categorias = new ArrayList<>();
 
-    @PostConstruct
     public void perSistenceInit(){
         categorias.add(new MCategoria(1,"Autos"));
         categorias.add(new MCategoria(2,"Arte"));
@@ -50,22 +49,15 @@ public class SubastasPersistenceImpl implements SubastasPersistence {
             throw new RuntimeException(e);
         }
     }
-    @Override
+
     public void saveSubasta(MSubasta sb) {
         subastas.add(sb);
     }
 
-    @Override
-    public MSubasta getSubasta(int id) {
-        for(MSubasta subasta:subastas){
-            if (subasta.getId() == id){
-                return subasta;
-            }
-        }
-        return null;
-    }
 
-    @Override
+
+
+
     public List<MSubasta> getSubastasByUser(int id) {
         List<MSubasta> subastasUsuario = new ArrayList<>();
         for(MSubasta subasta:subastas){
@@ -76,12 +68,12 @@ public class SubastasPersistenceImpl implements SubastasPersistence {
         return subastasUsuario;
     }
 
-    @Override
+
     public List<MSubasta> getSubastas() {
         return subastas;
     }
 
-    @Override
+
     public void deleteSubasta(int id) {
         for(int i = 0; i < subastas.size();i++){
             if (subastas.get(i).getId() == id){
@@ -91,7 +83,7 @@ public class SubastasPersistenceImpl implements SubastasPersistence {
         }
     }
 
-    @Override
+
     public void pausarSubasta(int id) {
         for(MSubasta subasta:subastas){
             if (subasta.getId() == id){
@@ -100,7 +92,7 @@ public class SubastasPersistenceImpl implements SubastasPersistence {
         }
     }
 
-    @Override
+
     public void resumaSubasta(int id) {
         for(MSubasta subasta:subastas){
             if (subasta.getId() == id){
@@ -109,7 +101,7 @@ public class SubastasPersistenceImpl implements SubastasPersistence {
         }
     }
 
-    @Override
+
     public void finalizarSubasta(int id) {
         for(MSubasta subasta:subastas){
             if (subasta.getId() == id){

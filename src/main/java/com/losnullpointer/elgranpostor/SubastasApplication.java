@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EntityScan("com.losnullpointer.elgranpostor.model")
+@EntityScan("com.losnullpointer.elgranpostor.model.entities")
 @EnableJpaRepositories("com.losnullpointer.elgranpostor.persistence.daos")
 public class SubastasApplication {
 

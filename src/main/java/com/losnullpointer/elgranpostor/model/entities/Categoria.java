@@ -3,6 +3,7 @@ package com.losnullpointer.elgranpostor.model.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 
+
 @Entity(name = "categorias")
 public class Categoria implements Serializable {
 
@@ -13,10 +14,6 @@ public class Categoria implements Serializable {
     @Column(name = "nombre")
     private String name;
 
-    public Categoria(String name,int id){
-        this.id = id;
-        this.name = name;
-    }
 
     public Categoria() {
 
