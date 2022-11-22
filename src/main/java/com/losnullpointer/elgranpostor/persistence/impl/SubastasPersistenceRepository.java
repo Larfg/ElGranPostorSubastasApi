@@ -82,5 +82,12 @@ public class SubastasPersistenceRepository implements SubastasPersistence {
         subaRepo.save(subasta);
     }
 
+    @Override
+    public void setMaxBidSubasta(int idSubasta, Float bid) {
+        Subasta subasta = subaRepo.findById(idSubasta).get();
+        subasta.setOfertaMaxima(bid);
+        subaRepo.save(subasta);
+    }
+
 
 }

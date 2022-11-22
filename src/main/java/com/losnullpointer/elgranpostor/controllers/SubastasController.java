@@ -1,5 +1,6 @@
 package com.losnullpointer.elgranpostor.controllers;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
@@ -28,17 +29,25 @@ public class SubastasController {
     SubastasServices sbs;
     @Autowired
     SimpMessagingTemplate msgt;
-    /*
     @MessageMapping("/newBid.{idSubasta}")
     public void handleBidEvent(Float bid, @DestinationVariable int idSubasta) throws Exception{
-        int maxBid;
         msgt.convertAndSend("/topic/newBid."+idSubasta, bid);
         synchronized (subastasBids){
             if(subastasBids.get(idSubasta) != null){
                 subastasBids.get(idSubasta).add(bid);
+                if(bid > sbs.getSubasta(idSubasta).getOfertaMaxima()){
+                    sbs.setMaxBidSubasta(idSubasta,bid);
+                }
             }
+            else{
+                List<Float> bids = new ArrayList<>();
+                bids.add(bid);
+                subastasBids.put(idSubasta,bids);
+                sbs.setMaxBidSubasta(idSubasta,bid);
+            }
+
         }
-    }*/
+    }
     @GetMapping("/subasta/")
     public ResponseEntity<?> controllerGetSubastas(){
         try {

@@ -22,4 +22,6 @@ public interface SubastasPersistence {
     void resumaSubasta(int id) throws Exception;
 
     void finalizarSubasta(int id) throws Exception;
+
+    void setMaxBidSubasta(int idSubasta, Float bid);
 }

@@ -6,7 +6,6 @@ import com.losnullpointer.elgranpostor.model.entities.Subasta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.losnullpointer.elgranpostor.model.MSubasta;
 import com.losnullpointer.elgranpostor.persistence.SubastasPersistence;
 
 @Service
@@ -40,4 +39,6 @@ public class SubastasServices {
 
     public List<Subasta> getSubastas() {return sbp.getSubastas();}
 
+    public void setMaxBidSubasta(int idSubasta, Float bid) {sbp.setMaxBidSubasta(idSubasta,bid);
+    }
 }
