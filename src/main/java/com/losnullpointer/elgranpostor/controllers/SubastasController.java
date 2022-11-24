@@ -1,13 +1,12 @@
 package com.losnullpointer.elgranpostor.controllers;
 
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gson.GsonBuilder;
+import com.losnullpointer.elgranpostor.model.OfertasSubasta;
 import com.losnullpointer.elgranpostor.model.entities.Subasta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -24,28 +23,25 @@ import com.losnullpointer.elgranpostor.services.SubastasServices;
 @Controller
 @RequestMapping(value = "version1/subastas")
 public class SubastasController {
-    Dictionary<Integer,List<Float>> subastasBids = new Hashtable<>();
+    Dictionary<Integer, OfertasSubasta> subastasBids = new Hashtable<>();
     @Autowired
     SubastasServices sbs;
     @Autowired
     SimpMessagingTemplate msgt;
     @MessageMapping("/newBid.{idSubasta}")
-    public void handleBidEvent(Float bid, @DestinationVariable int idSubasta) throws Exception{
+    public void handleBidEvent(Float bid, @DestinationVariable int idSubasta) {
         msgt.convertAndSend("/topic/newBid."+idSubasta, bid);
-        synchronized (subastasBids){
-            if(subastasBids.get(idSubasta) != null){
-                subastasBids.get(idSubasta).add(bid);
-                if(bid > sbs.getSubasta(idSubasta).getOfertaMaxima()){
+        if(subastasBids.get(idSubasta) != null){
+            subastasBids.get(idSubasta).aniadirOferta(bid);
+            if(bid > sbs.getSubasta(idSubasta).getOfertaMaxima()){
                     sbs.setMaxBidSubasta(idSubasta,bid);
-                }
             }
-            else{
-                List<Float> bids = new ArrayList<>();
-                bids.add(bid);
-                subastasBids.put(idSubasta,bids);
-                sbs.setMaxBidSubasta(idSubasta,bid);
-            }
-
+        }
+        else{
+            OfertasSubasta ofertas = new OfertasSubasta();
+            ofertas.aniadirOferta(bid);
+            subastasBids.put(idSubasta,ofertas);
+            sbs.setMaxBidSubasta(idSubasta,bid);
         }
     }
     @GetMapping("/subasta/")
