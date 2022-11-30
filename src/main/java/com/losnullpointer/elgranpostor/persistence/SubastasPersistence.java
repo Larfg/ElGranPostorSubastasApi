@@ -2,6 +2,8 @@ package com.losnullpointer.elgranpostor.persistence;
 
 import java.util.List;
 
+import com.losnullpointer.elgranpostor.exceptions.BuscarSubastaException;
+import com.losnullpointer.elgranpostor.exceptions.ModificarSubastaException;
 import com.losnullpointer.elgranpostor.model.entities.Subasta;
 
 public interface SubastasPersistence {
@@ -17,11 +19,15 @@ public interface SubastasPersistence {
 
     void deleteSubasta(int id);
 
-    void pausarSubasta(int id) throws Exception;
+    void pausarSubasta(int id) throws ModificarSubastaException, BuscarSubastaException;
 
-    void resumaSubasta(int id) throws Exception;
+    void resumaSubasta(int id) throws ModificarSubastaException, BuscarSubastaException;
 
-    void finalizarSubasta(int id) throws Exception;
+    void finalizarSubasta(int id) throws ModificarSubastaException, BuscarSubastaException;
 
-    void setMaxBidSubasta(int idSubasta, Float bid);
+    void setMaxBidSubasta(int idSubasta, Float bid) throws BuscarSubastaException;
+
+    Subasta getLastSubasta();
+
+    void deleteLastSubasta();
 }

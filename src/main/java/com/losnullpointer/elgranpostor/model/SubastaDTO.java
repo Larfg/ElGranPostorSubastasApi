@@ -1,50 +1,49 @@
 package com.losnullpointer.elgranpostor.model;
 
-import java.io.Serializable;
+import com.losnullpointer.elgranpostor.model.entities.Categoria;
+import com.losnullpointer.elgranpostor.model.entities.Subasta;
+import com.losnullpointer.elgranpostor.model.entities.Usuario;
 
-import com.losnullpointer.elgranpostor.exceptions.CrearSubastaException;
-import javax.persistence.*;
-
-public class MSubasta {
-
-    private String tags;
+public class SubastaDTO {
     private int id;
-    private MUsuario usuario;
+    private Usuario usuario;
     private String nombre;
-    private MCategoria categoria;
+    private Categoria categoria;
+    private String tags;
     private String descripcion;
     private int duracion;
     private float precio;
+    private float ofertaMaxima;
+    private boolean activa;
+    private boolean finalizada;
 
-    private boolean activa = true;
-
-    private boolean finalizada = false;
-
-
-
-    public MSubasta(int id, MUsuario usuario, String nombre, MCategoria categoria, String tags, String descripcion, int duracion, float precio) throws CrearSubastaException {
+    public SubastaDTO(int id,Usuario usuario, String nombre, Categoria categoria, String tags, String descripcion, float precio) {
         this.id = id;
         this.usuario = usuario;
         this.nombre = nombre;
         this.categoria = categoria;
         this.tags = tags;
-        if (descripcion.length() > 1000) {
-            throw new CrearSubastaException("La descripcion solo puede ser de 1000 caracteres borre");
-        }
         this.descripcion = descripcion;
-        this.duracion = duracion;
+        this.duracion = 0;
         this.precio = precio;
+        this.ofertaMaxima = 0;
+        this.activa = true;
+        this.finalizada = false;
     }
 
-    public String toString(){
-        return id+","+
-            usuario.toString()+","+
-            nombre+","+
-            categoria.getName()+","+
-            tags.toString()+","+
-            descripcion+","+
-            duracion+","+
-            precio;
+    public Subasta convertToSubasta(){
+        Subasta subasta = new Subasta();
+        subasta.setUsuario(usuario);
+        subasta.setNombre(nombre);
+        subasta.setCategoria(categoria);
+        subasta.setTags(tags);
+        subasta.setDescripcion(descripcion);
+        subasta.setDuracion(duracion);
+        subasta.setPrecio(precio);
+        subasta.setOfertaMaxima(ofertaMaxima);
+        subasta.setActiva(activa);
+        subasta.setFinalizada(finalizada);
+        return subasta;
     }
 
     public int getId() {
@@ -55,11 +54,11 @@ public class MSubasta {
         this.id = id;
     }
 
-    public MUsuario getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(MUsuario usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 
@@ -71,11 +70,11 @@ public class MSubasta {
         this.nombre = nombre;
     }
 
-    public MCategoria getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(MCategoria categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 
@@ -110,17 +109,21 @@ public class MSubasta {
     public void setPrecio(float precio) {
         this.precio = precio;
     }
+
+    public float getOfertaMaxima() {
+        return ofertaMaxima;
+    }
+
+    public void setOfertaMaxima(float ofertaMaxima) {
+        this.ofertaMaxima = ofertaMaxima;
+    }
+
     public boolean isActiva() {
         return activa;
     }
 
     public void setActiva(boolean activa) {
-        if(finalizada){
-            this.activa = false;
-        }
-        else {
-            this.activa = activa;
-        }
+        this.activa = activa;
     }
 
     public boolean isFinalizada() {
@@ -128,8 +131,6 @@ public class MSubasta {
     }
 
     public void setFinalizada(boolean finalizada) {
-        if (!finalizada){
-            this.finalizada = finalizada;
-        }
+        this.finalizada = finalizada;
     }
 }

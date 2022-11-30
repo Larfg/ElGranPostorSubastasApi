@@ -11,5 +11,6 @@ import java.util.List;
 public interface JpaSubastaRepository extends JpaRepository<Subasta, Serializable> {
 
     List<Subasta> findByUsuarioIdUsuario(int id);
+    Subasta findFirstByOrderByIdDesc();
 
 }

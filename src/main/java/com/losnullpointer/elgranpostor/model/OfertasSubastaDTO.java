@@ -4,7 +4,7 @@ package com.losnullpointer.elgranpostor.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfertasSubasta {
+public class OfertasSubastaDTO {
     final List<Float> ofertas = new ArrayList<>();
 
     public void aniadirOferta(float oferta){

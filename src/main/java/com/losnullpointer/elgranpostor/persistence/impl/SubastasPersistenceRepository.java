@@ -1,6 +1,8 @@
 package com.losnullpointer.elgranpostor.persistence.impl;
 
 
+import com.losnullpointer.elgranpostor.exceptions.BuscarSubastaException;
+import com.losnullpointer.elgranpostor.exceptions.ModificarSubastaException;
 import com.losnullpointer.elgranpostor.model.entities.Subasta;
 import com.losnullpointer.elgranpostor.persistence.SubastasPersistence;
 import com.losnullpointer.elgranpostor.persistence.daos.JpaCategoriaRepository;
@@ -30,7 +32,7 @@ public class SubastasPersistenceRepository implements SubastasPersistence {
 
     @Override
     public Subasta getSubasta(int id) {
-        return subaRepo.findById(id).get();
+        return subaRepo.findById(id).orElse(null);
     }
 
     @Override
@@ -50,10 +52,13 @@ public class SubastasPersistenceRepository implements SubastasPersistence {
 
     @Override
     @Transactional
-    public void pausarSubasta(int id) throws Exception {
-        Subasta subasta = subaRepo.findById(id).get();
+    public void pausarSubasta(int id) throws ModificarSubastaException,BuscarSubastaException {
+        Subasta subasta = subaRepo.findById(id).orElse(null);
+        if (subasta == null){
+            throw new BuscarSubastaException("No se puede pausar una subasta que no existe");
+        }
         if (subasta.isFinalizada()){
-            throw new Exception("No se puede pausar una subasta finalizada");
+            throw new ModificarSubastaException("No se puede pausar una subasta finalizada");
         }
         subasta.setActiva(false);
         subaRepo.save(subasta);
@@ -61,10 +66,13 @@ public class SubastasPersistenceRepository implements SubastasPersistence {
 
     @Override
     @Transactional
-    public void resumaSubasta(int id) throws Exception {
-        Subasta subasta = subaRepo.findById(id).get();
+    public void resumaSubasta(int id) throws ModificarSubastaException,BuscarSubastaException {
+        Subasta subasta = subaRepo.findById(id).orElse(null);
+        if (subasta == null){
+            throw new BuscarSubastaException("No se puede resumir una subasta que no existe");
+        }
         if (subasta.isFinalizada()){
-            throw new Exception("No se puede resumir una subasta finalizada");
+            throw new ModificarSubastaException("No se puede resumir una subasta finalizada");
         }
         subasta.setActiva(true);
         subaRepo.save(subasta);
@@ -72,10 +80,13 @@ public class SubastasPersistenceRepository implements SubastasPersistence {
 
     @Override
     @Transactional
-    public void finalizarSubasta(int id) throws Exception {
-        Subasta subasta = subaRepo.findById(id).get();
+    public void finalizarSubasta(int id) throws ModificarSubastaException, BuscarSubastaException {
+        Subasta subasta = subaRepo.findById(id).orElse(null);
+        if (subasta == null){
+            throw new BuscarSubastaException("No se puede finalizar una subasta que no existe");
+        }
         if (subasta.isFinalizada()){
-            throw new Exception("No se puede finalizar una subasta ya finalizada");
+            throw new ModificarSubastaException("No se puede finalizar una subasta ya finalizada");
         }
         subasta.setActiva(false);
         subasta.setFinalizada(true);
@@ -83,11 +94,23 @@ public class SubastasPersistenceRepository implements SubastasPersistence {
     }
 
     @Override
-    public void setMaxBidSubasta(int idSubasta, Float bid) {
-        Subasta subasta = subaRepo.findById(idSubasta).get();
+    public void setMaxBidSubasta(int idSubasta, Float bid) throws BuscarSubastaException {
+        Subasta subasta = subaRepo.findById(idSubasta).orElse(null);
+        if (subasta == null){
+            throw new BuscarSubastaException("No se puede pausar una subasta que no existe");
+        }
         subasta.setOfertaMaxima(bid);
         subaRepo.save(subasta);
     }
 
+    @Override
+    public Subasta getLastSubasta() {
+        return subaRepo.findFirstByOrderByIdDesc();
+    }
+
+    @Override
+    public void deleteLastSubasta() {
+        subaRepo.deleteById(getLastSubasta().getId());
+    }
 
 }

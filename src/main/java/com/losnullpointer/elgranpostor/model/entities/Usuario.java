@@ -11,7 +11,7 @@ public class Usuario implements Serializable {
     private Integer idUsuario;
 
     public Usuario() {
-
+        //Este metodo debe estar vacio dado a que es necesario para el manejo de jpa
     }
 
     public Integer getIdUsuario() {

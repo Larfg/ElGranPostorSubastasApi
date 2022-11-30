@@ -16,7 +16,7 @@ public class Categoria implements Serializable {
 
 
     public Categoria() {
-
+        //Este metodo debe estar vacio dado a que es necesario para el manejo de jpa
     }
 
     public int getId() {
