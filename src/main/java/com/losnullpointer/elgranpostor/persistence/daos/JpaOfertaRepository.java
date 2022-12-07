@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface JpaOfertaRepository extends JpaRepository<Oferta, Serializable> {
+    Oferta findFirstByOrderByIdDesc();
     List<Oferta> findByUsuarioIdUsuario(int id);
 }

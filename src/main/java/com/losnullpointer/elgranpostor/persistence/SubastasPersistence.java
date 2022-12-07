@@ -35,4 +35,8 @@ public interface SubastasPersistence {
     void addOfertaUsuario(Oferta oferta);
 
     List<Oferta> getOfertasUsuario(int id);
+
+    Oferta getLastOferta();
+
+    void deleteLAstOferta();
 }

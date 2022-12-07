@@ -1,8 +1,10 @@
 package com.losnullpointer.elgranpostor;
 
 import com.losnullpointer.elgranpostor.exceptions.BuscarSubastaException;
+import com.losnullpointer.elgranpostor.model.OfertaDTO;
 import com.losnullpointer.elgranpostor.model.SubastaDTO;
 import com.losnullpointer.elgranpostor.model.entities.Categoria;
+import com.losnullpointer.elgranpostor.model.entities.Oferta;
 import com.losnullpointer.elgranpostor.model.entities.Subasta;
 import com.losnullpointer.elgranpostor.model.entities.Usuario;
 import com.losnullpointer.elgranpostor.services.SubastasServices;
@@ -146,6 +148,48 @@ class ElgranpostorApplicationTests {
 		Subasta sbb = sbs.getLastSubasta();
 		sbs.deleteLastSubasta();
 		assertEquals(20000000F,sbb.getOfertaMaxima());
+	}
+
+	@Test
+	void shouldAddOferta(){
+		Usuario usuario = new Usuario();
+		usuario.setIdUsuario(1);
+		Categoria categoria = new Categoria();
+		categoria.setId(1);
+		categoria.setName("Automoviles");
+		SubastaDTO sb= new SubastaDTO(1,usuario,"Chevy",categoria,"nuevo,importado","prueba",13000);
+		sbs.addNewSubasta(sb.convertToSubasta());
+		OfertaDTO of = new OfertaDTO(usuario,sbs.getLastSubasta(),10000);
+		sbs.addOfertaUsuario(of.convertToOferta());
+		Oferta oferta = sbs.getLastOferta();
+		sbs.deleteLastOferta();
+		sbs.deleteLastSubasta();
+		assertEquals(10000,oferta.getOfertaUsuario());
+	}
+
+	@Test
+	void shouldGetOfertas(){
+		Usuario usuario = new Usuario();
+		usuario.setIdUsuario(1);
+		Usuario usuario2 = new Usuario();
+		usuario2.setIdUsuario(2);
+		Categoria categoria = new Categoria();
+		categoria.setId(1);
+		categoria.setName("Automoviles");
+		SubastaDTO sb= new SubastaDTO(1,usuario,"Chevy",categoria,"nuevo,importado","prueba",13000);
+		sbs.addNewSubasta(sb.convertToSubasta());
+		OfertaDTO of = new OfertaDTO(usuario2,sbs.getLastSubasta(),10000);
+		sbs.addOfertaUsuario(of.convertToOferta());
+		of = new OfertaDTO(usuario2,sbs.getLastSubasta(),12000);
+		sbs.addOfertaUsuario(of.convertToOferta());
+		of = new OfertaDTO(usuario2,sbs.getLastSubasta(),13000);
+		sbs.addOfertaUsuario(of.convertToOferta());
+		List<Oferta> ofertas = sbs.getOfertasUsuario(2);
+		sbs.deleteLastOferta();
+		sbs.deleteLastOferta();
+		sbs.deleteLastOferta();
+		sbs.deleteLastSubasta();
+		assertTrue(ofertas.size()>2);
 	}
 
 }

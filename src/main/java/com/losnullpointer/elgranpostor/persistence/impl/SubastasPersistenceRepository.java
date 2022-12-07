@@ -126,5 +126,15 @@ public class SubastasPersistenceRepository implements SubastasPersistence {
         return ofeRepo.findByUsuarioIdUsuario(id);
     }
 
+    @Override
+    public Oferta getLastOferta() {
+        return ofeRepo.findFirstByOrderByIdDesc();
+    }
+
+    @Override
+    public void deleteLAstOferta() {
+        ofeRepo.deleteById(ofeRepo.findFirstByOrderByIdDesc().getId());
+    }
+
 
 }

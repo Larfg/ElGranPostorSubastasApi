@@ -61,4 +61,8 @@ public class SubastasServices {
     public void addOfertaUsuario(Oferta oferta) {sbp.addOfertaUsuario(oferta);}
 
     public List<Oferta> getOfertasUsuario(int id) {return sbp.getOfertasUsuario(id);}
+
+    public Oferta getLastOferta() {return sbp.getLastOferta();}
+
+    public void deleteLastOferta() {sbp.deleteLAstOferta();}
 }
