@@ -3,9 +3,11 @@ package com.losnullpointer.elgranpostor.persistence.impl;
 
 import com.losnullpointer.elgranpostor.exceptions.BuscarSubastaException;
 import com.losnullpointer.elgranpostor.exceptions.ModificarSubastaException;
+import com.losnullpointer.elgranpostor.model.entities.Oferta;
 import com.losnullpointer.elgranpostor.model.entities.Subasta;
 import com.losnullpointer.elgranpostor.persistence.SubastasPersistence;
 import com.losnullpointer.elgranpostor.persistence.daos.JpaCategoriaRepository;
+import com.losnullpointer.elgranpostor.persistence.daos.JpaOfertaRepository;
 import com.losnullpointer.elgranpostor.persistence.daos.JpaSubastaRepository;
 import com.losnullpointer.elgranpostor.persistence.daos.JpaUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,8 @@ public class SubastasPersistenceRepository implements SubastasPersistence {
     JpaUsuarioRepository usuRepo;
     @Autowired
     JpaSubastaRepository subaRepo;
-
+    @Autowired
+    JpaOfertaRepository ofeRepo;
 
     @Override
     public void saveSubasta(Subasta sb) {
@@ -112,5 +115,16 @@ public class SubastasPersistenceRepository implements SubastasPersistence {
     public void deleteLastSubasta() {
         subaRepo.deleteById(getLastSubasta().getId());
     }
+
+    @Override
+    public void addOfertaUsuario(Oferta oferta) {
+        ofeRepo.save(oferta);
+    }
+
+    @Override
+    public List<Oferta> getOfertasUsuario(int id) {
+        return ofeRepo.findByUsuarioIdUsuario(id);
+    }
+
 
 }

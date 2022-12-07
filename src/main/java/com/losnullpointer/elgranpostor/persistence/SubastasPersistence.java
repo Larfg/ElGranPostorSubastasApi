@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.losnullpointer.elgranpostor.exceptions.BuscarSubastaException;
 import com.losnullpointer.elgranpostor.exceptions.ModificarSubastaException;
+import com.losnullpointer.elgranpostor.model.entities.Oferta;
 import com.losnullpointer.elgranpostor.model.entities.Subasta;
 
 public interface SubastasPersistence {
@@ -30,4 +31,8 @@ public interface SubastasPersistence {
     Subasta getLastSubasta();
 
     void deleteLastSubasta();
+
+    void addOfertaUsuario(Oferta oferta);
+
+    List<Oferta> getOfertasUsuario(int id);
 }

@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.losnullpointer.elgranpostor.model.OfertaDTO;
 import com.losnullpointer.elgranpostor.model.OfertasSubastaDTO;
 import com.losnullpointer.elgranpostor.model.SubastaDTO;
+import com.losnullpointer.elgranpostor.model.entities.Oferta;
 import com.losnullpointer.elgranpostor.model.entities.Subasta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -137,6 +139,29 @@ public class SubastasController {
         }catch (Exception ex){
             Logger.getLogger(SubastasController.class.getName()).log(Level.SEVERE,null,ex);
             return new ResponseEntity<>("No se pudo finalizar",HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PostMapping(value="/addOferta")
+    public ResponseEntity<String> controllerPostOferta(@RequestBody OfertaDTO of){
+        try{
+            sbs.addOfertaUsuario(of.convertToOferta());
+            return new ResponseEntity<>("Oferta añadida con exito", HttpStatus.CREATED);
+        }catch (Exception ex){
+            Logger.getLogger(SubastasController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se pudo agregar", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @GetMapping("/ofertas/{id}")
+    public ResponseEntity<String> controllerGetOfertaByUser(@PathVariable("id") int id){
+        try{
+            List<Oferta> data = sbs.getOfertasUsuario(id);
+            Gson gson = new Gson();
+            return new ResponseEntity<>(gson.toJson(data), HttpStatus.ACCEPTED);
+        }catch(Exception ex){
+            Logger.getLogger(SubastasController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(NO_SE_PUDO_CONSULTAR, HttpStatus.NOT_FOUND);
         }
     }
 

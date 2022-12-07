@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.losnullpointer.elgranpostor.exceptions.BuscarSubastaException;
 import com.losnullpointer.elgranpostor.exceptions.ModificarSubastaException;
+import com.losnullpointer.elgranpostor.model.entities.Oferta;
 import com.losnullpointer.elgranpostor.model.entities.Subasta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,4 +57,8 @@ public class SubastasServices {
     public void deleteLastSubasta(){
         sbp.deleteLastSubasta();
     }
+
+    public void addOfertaUsuario(Oferta oferta) {sbp.addOfertaUsuario(oferta);}
+
+    public List<Oferta> getOfertasUsuario(int id) {return sbp.getOfertasUsuario(id);}
 }
